@@ -38,7 +38,7 @@
     display:flex; flex-direction:column;
     height:100dvh; overflow:hidden;
   }
-
+ 
   /* ---------- Header ---------- */
   header{
     padding: max(14px, env(safe-area-inset-top)) 18px 10px 18px;
@@ -58,7 +58,7 @@
   }
   .rec-dot.live{ opacity:1; transform:scale(1); animation:pulse 1.4s ease-in-out infinite; }
   @keyframes pulse{ 0%,100%{ box-shadow:0 0 0 0 rgba(181,60,52,.45);} 50%{ box-shadow:0 0 0 6px rgba(181,60,52,0);} }
-
+ 
   .timer-block{ text-align:right; }
   .timer{
     font-family:'JetBrains Mono', monospace; font-size:20px; font-weight:600;
@@ -69,13 +69,13 @@
     font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--ink-soft);
     text-transform:uppercase; letter-spacing:0.08em; margin-top:1px;
   }
-
+ 
   .icon-btn{
     background:none; border:none; padding:6px; color:var(--ink);
     display:flex; align-items:center; justify-content:center; cursor:pointer;
   }
   .icon-btn svg{ width:22px; height:22px; }
-
+ 
   /* ---------- Tabs ---------- */
   .tabs{
     display:flex; gap:6px; padding:10px 18px 0 18px; flex-shrink:0;
@@ -90,7 +90,7 @@
     background:var(--surface); border-color:var(--border); border-bottom-color:var(--surface);
     color:var(--ink); position:relative; top:1px;
   }
-
+ 
   /* ---------- Editor area ---------- */
   main{
     flex:1; min-height:0; background:var(--surface);
@@ -100,7 +100,7 @@
   }
   .pane{ flex:1; min-height:0; display:none; }
   .pane.active{ display:flex; flex-direction:column; }
-
+ 
   #noteText{
     flex:1; width:100%; resize:none; border:none; outline:none;
     padding:18px 20px 100px 20px;
@@ -111,10 +111,10 @@
     background-attachment:local;
   }
   #noteText::placeholder{ color:#b9b4a6; }
-
+ 
   .canvas-wrap{ flex:1; position:relative; touch-action:none; background:var(--surface); }
   #drawCanvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
-
+ 
   .draw-toolbar{
     display:flex; align-items:center; gap:10px; padding:10px 16px;
     border-top:1px solid var(--border); background:var(--surface); flex-shrink:0;
@@ -130,7 +130,18 @@
     font-family:'JetBrains Mono', monospace; font-size:11px; text-transform:uppercase;
     letter-spacing:0.05em; padding:8px 10px; color:var(--ink-soft); cursor:pointer;
   }
-
+  .write-toggle{
+    display:flex; align-items:center; gap:7px;
+    font-family:'JetBrains Mono', monospace; font-size:11px; text-transform:uppercase;
+    letter-spacing:0.05em; padding:8px 10px; border-radius:8px; border:1px solid var(--border);
+    color:var(--ink-soft); cursor:pointer; background:none;
+  }
+  .write-toggle .dot{ width:7px; height:7px; border-radius:50%; background:#cfcabe; flex-shrink:0; }
+  .write-toggle.on{ color:var(--glow); border-color:var(--glow); background:var(--glow-soft); }
+  .write-toggle.on .dot{ background:var(--glow); animation:pulse-glow 1.4s ease-in-out infinite; }
+  @keyframes pulse-glow{ 0%,100%{ box-shadow:0 0 0 0 rgba(179,128,31,.4);} 50%{ box-shadow:0 0 0 5px rgba(179,128,31,0);} }
+  .listening-strip.write-mode{ background:var(--glow-soft); color:var(--glow); }
+ 
   /* ---------- Bottom toolbar ---------- */
   .toolbar{
     flex-shrink:0; display:flex; align-items:center; justify-content:space-between;
@@ -144,7 +155,7 @@
     width:60px;
   }
   .side-btn svg{ width:20px; height:20px; }
-
+ 
   .mic-btn{
     width:72px; height:72px; border-radius:50%; border:none;
     background:var(--ink); color:var(--paper);
@@ -155,13 +166,13 @@
   .mic-btn.live{ background:var(--rec); }
   .mic-btn svg{ width:28px; height:28px; }
   .mic-btn[disabled]{ background:#cfcabe; cursor:not-allowed; }
-
+ 
   .listening-strip{
     font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--rec);
     padding:6px 20px; min-height:16px; background:var(--rec-soft);
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
-
+ 
   /* ---------- List panel ---------- */
   .list-panel{
     position:fixed; inset:0; background:var(--paper); z-index:20;
@@ -191,7 +202,7 @@
   .li-draw-flag{ font-size:15px; }
   .li-del{ background:none; border:none; color:#b9b4a6; padding:6px; cursor:pointer; flex-shrink:0; }
   .li-del svg{ width:18px; height:18px; }
-
+ 
   /* ---------- Insights panel ---------- */
   .insights-panel{
     position:fixed; inset:0; background:var(--paper); z-index:20;
@@ -220,7 +231,7 @@
     border-top-color:var(--glow); margin:0 auto 12px auto; animation:spin .8s linear infinite;
   }
   @keyframes spin{ to{ transform:rotate(360deg); } }
-
+ 
   /* ---------- Settings panel ---------- */
   .settings-panel{
     position:fixed; inset:0; background:var(--paper); z-index:20;
@@ -248,7 +259,7 @@
 </style>
 </head>
 <body>
-
+ 
 <header>
   <div>
     <div class="brand-row">
@@ -272,12 +283,12 @@
     </button>
   </div>
 </header>
-
+ 
 <div class="tabs">
   <button class="tab active" data-tab="text">Text</button>
   <button class="tab" data-tab="draw">Draw</button>
 </div>
-
+ 
 <main>
   <div class="pane active" id="pane-text">
     <textarea id="noteText" placeholder="Start typing, or press the mic to dictate…"></textarea>
@@ -292,14 +303,17 @@
       <div class="swatch" data-color="#b53c34" style="background:#b53c34"></div>
       <div class="swatch" data-color="#ffffff" style="background:#ffffff; border:1px solid #ccc;" data-eraser="1"></div>
       <div class="spacer"></div>
+      <button class="write-toggle" id="writeToggle" type="button">
+        <span class="dot"></span><span id="writeToggleLabel">AI Write</span>
+      </button>
       <button id="undoBtn">Undo</button>
       <button id="clearDrawBtn">Clear</button>
     </div>
   </div>
 </main>
-
+ 
 <div class="listening-strip" id="listeningStrip" style="display:none;"></div>
-
+ 
 <div class="toolbar">
   <button class="side-btn" id="newBtn">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>
@@ -313,7 +327,7 @@
     Clear
   </button>
 </div>
-
+ 
 <div class="list-panel" id="listPanel">
   <div class="list-header">
     <span class="brand">Saved notes</span>
@@ -323,7 +337,7 @@
   </div>
   <div class="list-items" id="listItems"></div>
 </div>
-
+ 
 <div class="insights-panel" id="insightsPanel">
   <div class="list-header">
     <span class="brand">Overview</span>
@@ -335,7 +349,7 @@
     <div class="insights-empty">Write or dictate a note, then tap the sparkle icon to get a summary and key details.</div>
   </div>
 </div>
-
+ 
 <div class="settings-panel" id="settingsPanel">
   <div class="list-header">
     <span class="brand">Settings</span>
@@ -357,27 +371,27 @@
     </div>
   </div>
 </div>
-
+ 
 <script>
 (function(){
   "use strict";
-
+ 
   // ---------- State ----------
   let current = { id: null, createdAt: Date.now(), text: "", drawing: null };
   let savedNotes = []; // loaded from storage
   let liveTimer = null;
   let isViewingSaved = false; // true when a past note is loaded (timer freezes)
-
+ 
   const noteText = document.getElementById('noteText');
   const timerEl = document.getElementById('timer');
   const timerLabel = document.getElementById('timerLabel');
   const recDot = document.getElementById('recDot');
   const micBtn = document.getElementById('micBtn');
   const listeningStrip = document.getElementById('listeningStrip');
-
+ 
   // ---------- Storage ----------
   const STORAGE_KEY = 'minutes-notes';
-
+ 
   async function loadNotes(){
     try{
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -386,17 +400,17 @@
       savedNotes = [];
     }
   }
-
+ 
   async function persistNotes(){
     try{
       localStorage.setItem(STORAGE_KEY, JSON.stringify(savedNotes));
     }catch(e){ /* best effort, e.g. storage full or private mode */ }
   }
-
+ 
   function hasContent(note){
     return (note.text && note.text.trim().length>0) || !!note.drawing;
   }
-
+ 
   async function saveCurrentIfNeeded(){
     if(!hasContent(current)) return;
     const idx = savedNotes.findIndex(n => n.id === current.id);
@@ -411,7 +425,7 @@
     else { savedNotes.unshift(record); }
     await persistNotes();
   }
-
+ 
   // ---------- Timer ----------
   function formatElapsed(ms){
     const totalSec = Math.max(0, Math.floor(ms/1000));
@@ -422,7 +436,7 @@
     const ss = String(s).padStart(2,'0');
     return h>0 ? `${h}:${mm}:${ss}` : `${mm}:${ss}`;
   }
-
+ 
   function startLiveTimer(){
     stopLiveTimer();
     isViewingSaved = false;
@@ -432,11 +446,11 @@
     }, 1000);
     timerEl.textContent = formatElapsed(Date.now() - current.createdAt);
   }
-
+ 
   function stopLiveTimer(){
     if(liveTimer){ clearInterval(liveTimer); liveTimer = null; }
   }
-
+ 
   function showStaticDuration(note){
     stopLiveTimer();
     isViewingSaved = true;
@@ -444,7 +458,7 @@
     const dur = (note.updatedAt || note.createdAt) - note.createdAt;
     timerEl.textContent = formatElapsed(Math.max(dur, 0));
   }
-
+ 
   // ---------- New / Clear ----------
   async function newNote(){
     await saveCurrentIfNeeded();
@@ -454,9 +468,9 @@
     startLiveTimer();
     renderList();
   }
-
+ 
   document.getElementById('newBtn').addEventListener('click', newNote);
-
+ 
   document.getElementById('clearBtn').addEventListener('click', ()=>{
     if(activeTab === 'text'){
       noteText.value = "";
@@ -466,7 +480,7 @@
       clearCanvas(true);
     }
   });
-
+ 
   // ---------- Tabs ----------
   let activeTab = 'text';
   const tabs = document.querySelectorAll('.tab');
@@ -481,9 +495,9 @@
       if(activeTab === 'draw'){ resizeCanvas(); }
     });
   });
-
+ 
   noteText.addEventListener('input', ()=>{ current.text = noteText.value; });
-
+ 
   // ---------- Drawing ----------
   const canvas = document.getElementById('drawCanvas');
   const ctx = canvas.getContext('2d');
@@ -491,7 +505,7 @@
   let currentStroke = null;
   let drawColor = '#1c1b18';
   let isEraser = false;
-
+ 
   function resizeCanvas(){
     const wrap = canvas.parentElement;
     const dpr = window.devicePixelRatio || 1;
@@ -506,12 +520,12 @@
     ctx.lineJoin = 'round';
     redrawAll();
   }
-
+ 
   function redrawAll(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     strokes.forEach(drawStroke);
   }
-
+ 
   function drawStroke(stroke){
     if(stroke.points.length < 1) return;
     ctx.strokeStyle = stroke.color;
@@ -524,12 +538,12 @@
       else{ ctx.lineTo(pt.x, pt.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(pt.x, pt.y); }
     });
   }
-
+ 
   function getPos(e){
     const rect = canvas.getBoundingClientRect();
     return { x: e.clientX - rect.left, y: e.clientY - rect.top, p: e.pressure && e.pressure>0 ? e.pressure : 0.5 };
   }
-
+ 
   canvas.addEventListener('pointerdown', (e)=>{
     canvas.setPointerCapture(e.pointerId);
     currentStroke = { points:[getPos(e)], color: isEraser ? '#000' : drawColor, eraser: isEraser };
@@ -541,29 +555,137 @@
     redrawAll();
   });
   function endStroke(){
-    if(currentStroke){ currentStroke = null; captureDrawing(); }
+    if(currentStroke){
+      currentStroke = null;
+      captureDrawing();
+      if(liveWriteMode && strokes.length){ schedulePauseRecognition(); }
+    }
   }
   canvas.addEventListener('pointerup', endStroke);
   canvas.addEventListener('pointerleave', endStroke);
   canvas.addEventListener('pointercancel', endStroke);
-
+ 
+  // ---------- Live handwriting-to-text ----------
+  let liveWriteMode = false;
+  let pauseTimer = null;
+  const PAUSE_MS = 900;
+  const writeToggle = document.getElementById('writeToggle');
+  const writeToggleLabel = document.getElementById('writeToggleLabel');
+ 
+  writeToggle.addEventListener('click', ()=>{
+    if(!liveWriteMode && !getApiKey()){
+      showWriteStatus('Add a free Groq key in Settings to turn this on.', true);
+      return;
+    }
+    liveWriteMode = !liveWriteMode;
+    writeToggle.classList.toggle('on', liveWriteMode);
+    writeToggleLabel.textContent = liveWriteMode ? 'AI Write: On' : 'AI Write';
+    if(liveWriteMode){
+      showWriteStatus('Write on the pad — it clears itself after each pause.', false);
+      const drawTab = document.querySelector('.tab[data-tab="draw"]');
+      if(drawTab && !drawTab.classList.contains('active')){ drawTab.click(); }
+    } else {
+      listeningStrip.style.display = 'none';
+      if(pauseTimer){ clearTimeout(pauseTimer); pauseTimer = null; }
+    }
+  });
+ 
+  function schedulePauseRecognition(){
+    if(pauseTimer){ clearTimeout(pauseTimer); }
+    pauseTimer = setTimeout(triggerRecognition, PAUSE_MS);
+  }
+ 
+  function canvasSnapshotOnWhite(){
+    const dpr = window.devicePixelRatio || 1;
+    const temp = document.createElement('canvas');
+    temp.width = canvas.width;
+    temp.height = canvas.height;
+    const tctx = temp.getContext('2d');
+    tctx.fillStyle = '#ffffff';
+    tctx.fillRect(0, 0, temp.width, temp.height);
+    tctx.drawImage(canvas, 0, 0);
+    return temp.toDataURL('image/png');
+  }
+ 
+  async function triggerRecognition(){
+    if(!strokes.length) return;
+    const snapshot = canvasSnapshotOnWhite();
+    clearCanvas(true); // clear immediately so writing can continue without waiting
+    showWriteStatus('Reading your writing…', false);
+    try{
+      const text = await recognizeHandwriting(snapshot);
+      if(text){
+        const needsSpace = noteText.value && !/\s$/.test(noteText.value);
+        noteText.value += (needsSpace ? ' ' : '') + text + ' ';
+        current.text = noteText.value;
+        showWriteStatus('Added: "' + text + '"', false);
+      } else {
+        showWriteStatus('Write on the pad — it clears itself after each pause.', false);
+      }
+    }catch(err){
+      showWriteStatus('Could not read that — try writing it again.', true);
+    }
+  }
+ 
+  async function recognizeHandwriting(dataUrl){
+    const apiKey = getApiKey();
+    if(!apiKey) throw new Error('missing-key');
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + apiKey
+      },
+      body: JSON.stringify({
+        model: "qwen/qwen3.6-27b",
+        temperature: 0,
+        max_completion_tokens: 60,
+        messages: [
+          {
+            role: "user",
+            content: [
+              {
+                type: "text",
+                text: "Transcribe the handwritten text in this image exactly as written, correcting only obvious letter-shape misreads. Respond with ONLY the transcribed text and nothing else — no quotes, no commentary. If the image is blank or has no legible writing, respond with exactly: EMPTY"
+              },
+              { type: "image_url", image_url: { url: dataUrl } }
+            ]
+          }
+        ]
+      })
+    });
+    if(!response.ok) throw new Error('Groq vision request failed: ' + response.status);
+    const data = await response.json();
+    const raw = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+    if(!raw) throw new Error('No response');
+    const cleaned = raw.trim();
+    if(!cleaned || cleaned.toUpperCase() === 'EMPTY') return '';
+    return cleaned;
+  }
+ 
+  function showWriteStatus(text, isError){
+    listeningStrip.style.display = 'block';
+    listeningStrip.classList.add('write-mode');
+    listeningStrip.textContent = text;
+  }
+ 
   function captureDrawing(){
     current.drawing = strokes.length ? canvas.toDataURL('image/png') : null;
   }
-
+ 
   function clearCanvas(resetStrokes){
     if(resetStrokes){ strokes = []; }
     ctx.clearRect(0,0,canvas.width,canvas.height);
     current.drawing = strokes.length ? canvas.toDataURL('image/png') : null;
   }
-
+ 
   document.getElementById('undoBtn').addEventListener('click', ()=>{
     strokes.pop();
     redrawAll();
     captureDrawing();
   });
   document.getElementById('clearDrawBtn').addEventListener('click', ()=> clearCanvas(true));
-
+ 
   document.querySelectorAll('.swatch').forEach(sw=>{
     sw.addEventListener('click', ()=>{
       document.querySelectorAll('.swatch').forEach(s=>s.classList.remove('selected'));
@@ -572,9 +694,9 @@
       if(!isEraser) drawColor = sw.dataset.color;
     });
   });
-
+ 
   window.addEventListener('resize', ()=>{ if(activeTab==='draw') resizeCanvas(); });
-
+ 
   function loadDrawingIntoCanvas(dataUrl){
     strokes = [];
     resizeCanvas();
@@ -589,13 +711,13 @@
     };
     img.src = dataUrl;
   }
-
+ 
   // ---------- Speech to text ----------
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   let recognition = null;
   let isRecording = false;
   let shouldContinue = false;
-
+ 
   if(!SR){
     micBtn.setAttribute('disabled','true');
     micBtn.title = 'Speech-to-text isn\'t supported in this browser';
@@ -604,7 +726,7 @@
     recognition.continuous = true;
     recognition.interimResults = true;
     recognition.lang = 'en-US';
-
+ 
     recognition.onresult = (event)=>{
       let interim = '';
       for(let i = event.resultIndex; i < event.results.length; i++){
@@ -623,7 +745,7 @@
       }
       listeningStrip.textContent = interim ? interim : 'Listening…';
     };
-
+ 
     recognition.onerror = (event)=>{
       if(event.error === 'not-allowed' || event.error === 'service-not-allowed'){
         listeningStrip.textContent = 'Microphone access was blocked.';
@@ -634,7 +756,7 @@
         listeningStrip.textContent = 'Mic error: ' + event.error;
       }
     };
-
+ 
     recognition.onend = ()=>{
       if(shouldContinue){
         try{ recognition.start(); }catch(e){ /* already started */ }
@@ -643,7 +765,7 @@
       }
     };
   }
-
+ 
   function startRecording(){
     if(!recognition) return;
     shouldContinue = true;
@@ -652,37 +774,38 @@
     micBtn.classList.add('live');
     recDot.classList.add('live');
     timerEl.classList.add('live');
+    listeningStrip.classList.remove('write-mode');
     listeningStrip.style.display = 'block';
     listeningStrip.textContent = 'Listening…';
     if(activeTab !== 'text'){
       tabs[0].click();
     }
   }
-
+ 
   function stopRecording(){
     shouldContinue = false;
     isRecording = false;
     if(recognition){ try{ recognition.stop(); }catch(e){} }
     finishRecordingUI();
   }
-
+ 
   function finishRecordingUI(){
     micBtn.classList.remove('live');
     recDot.classList.remove('live');
     timerEl.classList.remove('live');
     listeningStrip.style.display = 'none';
   }
-
+ 
   micBtn.addEventListener('click', ()=>{
     if(!recognition) return;
     if(isRecording){ stopRecording(); }
     else { startRecording(); }
   });
-
+ 
   // ---------- List panel ----------
   const listPanel = document.getElementById('listPanel');
   const listItems = document.getElementById('listItems');
-
+ 
   document.getElementById('listBtn').addEventListener('click', async ()=>{
     await saveCurrentIfNeeded();
     renderList();
@@ -691,13 +814,13 @@
   document.getElementById('closeListBtn').addEventListener('click', ()=>{
     listPanel.classList.remove('open');
   });
-
+ 
   function fmtDate(ts){
     const d = new Date(ts);
     return d.toLocaleDateString(undefined, {month:'short', day:'numeric'}) + ' · ' +
            d.toLocaleTimeString(undefined, {hour:'numeric', minute:'2-digit'});
   }
-
+ 
   function renderList(){
     listItems.innerHTML = '';
     const sorted = [...savedNotes].sort((a,b)=> (b.updatedAt||b.createdAt) - (a.updatedAt||a.createdAt));
@@ -730,11 +853,11 @@
       listItems.appendChild(row);
     });
   }
-
+ 
   function escapeHtml(s){
     return s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
-
+ 
   async function openNote(note){
     await saveCurrentIfNeeded();
     current = { id: note.id, createdAt: note.createdAt, updatedAt: note.updatedAt, text: note.text||'', drawing: note.drawing||null };
@@ -744,16 +867,16 @@
     listPanel.classList.remove('open');
     tabs[0].click();
   }
-
+ 
   // ---------- Summarize / highlights ----------
   const insightsPanel = document.getElementById('insightsPanel');
   const insightsBody = document.getElementById('insightsBody');
   const summarizeBtn = document.getElementById('summarizeBtn');
-
+ 
   document.getElementById('closeInsightsBtn').addEventListener('click', ()=>{
     insightsPanel.classList.remove('open');
   });
-
+ 
   summarizeBtn.addEventListener('click', async ()=>{
     const text = (current.text || '').trim();
     insightsPanel.classList.add('open');
@@ -782,12 +905,12 @@
       summarizeBtn.removeAttribute('disabled');
     }
   });
-
+ 
   // ---------- Settings panel ----------
   const settingsPanel = document.getElementById('settingsPanel');
   const apiKeyInput = document.getElementById('apiKeyInput');
   const keyStatus = document.getElementById('keyStatus');
-
+ 
   document.getElementById('settingsBtn').addEventListener('click', ()=>{
     apiKeyInput.value = getApiKey();
     keyStatus.textContent = getApiKey() ? 'Key saved on this device' : '';
@@ -812,14 +935,14 @@
   document.getElementById('groqLinkText').addEventListener('click', ()=>{
     window.open('https://console.groq.com/keys', '_blank');
   });
-
+ 
   const GROQ_KEY_STORAGE = 'minutes-groq-key';
   const GROQ_MODEL = 'llama-3.3-70b-versatile';
-
+ 
   function getApiKey(){
     return localStorage.getItem(GROQ_KEY_STORAGE) || '';
   }
-
+ 
   async function getSummary(text){
     const apiKey = getApiKey();
     if(!apiKey){
@@ -858,7 +981,7 @@
     const cleaned = messageContent.replace(/```json|```/g, '').trim();
     return JSON.parse(cleaned);
   }
-
+ 
   function renderInsights(result){
     const overview = result.overview || '';
     const highlights = Array.isArray(result.highlights) ? result.highlights : [];
@@ -873,7 +996,7 @@
     }
     insightsBody.innerHTML = html;
   }
-
+ 
   // ---------- Init ----------
   async function init(){
     await loadNotes();
@@ -882,19 +1005,19 @@
     renderList();
   }
   init();
-
+ 
   // ---------- PWA service worker ----------
   if('serviceWorker' in navigator){
     window.addEventListener('load', ()=>{
       navigator.serviceWorker.register('sw.js').catch(()=>{ /* best effort */ });
     });
   }
-
+ 
   // Persist periodically and on visibility change / unload
   setInterval(saveCurrentIfNeeded, 15000);
   document.addEventListener('visibilitychange', ()=>{ if(document.hidden) saveCurrentIfNeeded(); });
   window.addEventListener('pagehide', saveCurrentIfNeeded);
-
+ 
 })();
 </script>
 </body>
