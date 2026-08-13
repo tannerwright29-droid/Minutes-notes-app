@@ -1,4 +1,4 @@
-const CACHE_NAME = 'minutes-v1';
+const CACHE_NAME = 'minutes-v2';
 const ASSETS = ['./', './index.html', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', (event) => {
@@ -23,16 +23,15 @@ self.addEventListener('fetch', (event) => {
   if (url.hostname.includes('groq.com')) {
     return;
   }
+  // Network-first for our own app files, so updates show up right away.
+  // Falls back to the cached copy only if there's no connection.
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-      return fetch(event.request).then((response) => {
-        if (event.request.method === 'GET' && response.status === 200) {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-        }
-        return response;
-      }).catch(() => cached);
-    })
+    fetch(event.request).then((response) => {
+      if (event.request.method === 'GET' && response.status === 200) {
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+      }
+      return response;
+    }).catch(() => caches.match(event.request))
   );
 });
